@@ -42,7 +42,8 @@ jobs:
       - name: Build SQLite ODBC
         shell: msys2 {0}
         run: |
+          pwd
           cd build
-          ./build/mingw-build.sh
+          ./mingw-build.sh
         
         
