@@ -7,6 +7,11 @@ jobs:
   # Build main artifacts
   build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - { sys: mingw64, env: x86_64 }
+          - { sys: mingw32, env: i686 }
 
     steps:
       # Output run ID - in case we need it to release the artifacts. 
@@ -22,8 +27,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Update MSYS2
-      - name: Update 
+      # Setup MSYS2
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+             mingw-w64-${{matrix.env}}-toolchain
+             mingw-w64-${{matrix.env}}-nsis
+             mingw-w64-${{matrix.env}}-icu
+          
+      # Build
+      - name: Build SQLite ODBC
+        shell: msys2 {0}
         run: |
-          C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"
+          cd build
+          ./build/mingw-build.sh
+        
         
