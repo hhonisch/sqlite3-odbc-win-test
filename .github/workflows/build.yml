@@ -34,6 +34,7 @@ jobs:
           msystem: ${{matrix.sys}}
           update: true
           install: >-
+             make
              mingw-w64-${{matrix.env}}-toolchain
              mingw-w64-${{matrix.env}}-nsis
              mingw-w64-${{matrix.env}}-icu
