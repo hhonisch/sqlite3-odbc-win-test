@@ -43,11 +43,13 @@ jobs:
       - name: Build SQLite ODBC
         shell: msys2 {0}
         run: |
-          pwd
-          set | grep MINGW
-          echo $PATH
-          pacman -Q
           cd build
           ./mingw-build.sh
         
-        
+      # Upload arifacts to make them available for next job
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Dist-${{matrix.env}}
+          path: |
+            ./build/bin/*       
