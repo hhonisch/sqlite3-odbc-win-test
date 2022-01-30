@@ -43,6 +43,8 @@ jobs:
         shell: msys2 {0}
         run: |
           pwd
+          set | grep MINGW
+          where make
           cd build
           ./mingw-build.sh
         
